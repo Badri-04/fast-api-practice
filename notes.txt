@@ -1,0 +1,26 @@
+uvicorn app.main:app -> where in app.main app is package name, main is file name and app is fastapi object
+uvicorn app.main:app --reload
+
+url/docs or url/redoc for api documentation
+
+alembic setup
+alembic init alembic
+In alembic env.py add this areound config = context.config
+    from app.models import Base
+    from app.config import settings
+
+    # this is the Alembic Config object, which provides
+    # access to the values within the .ini file in use.
+    config = context.config
+    config.set_main_option(
+        "sqlalchemy.url", 
+        f"postgresql+psycopg://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
+    )
+
+    and set target_metadata to target_metadata = Base.metadata
+
+use <alembic revision --autogenerate -m "message"> for automatic sync with changes in models
+use <alembic upgrade head> to update the db
+
+---------------
+to pipe package requirements -> pip freeze > requirements.txt
